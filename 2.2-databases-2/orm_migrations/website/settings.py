@@ -36,11 +36,13 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'debug_toolbar',
     'school',
 ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -73,9 +75,12 @@ WSGI_APPLICATION = 'website.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'netology_orm_migrations',
+        'NAME': 'migrations',
         'HOST': '127.0.0.1',
         'PORT': '5432',
+        'USER': 'postgres',
+        'PASSWORD': 'Timofei95514444'
+
     }
 }
 
@@ -105,6 +110,10 @@ AUTH_PASSWORD_VALIDATORS = [
 LANGUAGE_CODE = 'RU-ru'
 
 TIME_ZONE = 'Europe/Moscow'
+
+INTERNAL_IPS = [
+    '127.0.0.1'
+]
 
 USE_I18N = True
 
