@@ -27,8 +27,14 @@ Content-Type: application/json
 Authorization: Token e69ce6c8ef87ab8dbe12df0272e2470435d2ced6
 
 {
-  "status": "CLOSED"
+  "status": "OPEN"
 }
+
+###
+
+# фильтрация по создателю
+GET {{baseUrl}}/advertisements/?status=OPEN
+Content-Type: application/json
 
 ###
 
