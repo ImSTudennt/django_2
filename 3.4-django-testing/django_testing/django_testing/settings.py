@@ -80,9 +80,11 @@ WSGI_APPLICATION = 'django_testing.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'netology_django_testing',
+        'NAME': 'django_testing',
         'HOST': '127.0.0.1',
         'PORT': '5432',
+        'PASSWORD': 'Timofei95514444',
+        'USER': 'postgres'
     }
 }
 
@@ -124,3 +126,9 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
 STATIC_URL = '/static/'
+
+REST_FRAMEWORK = {
+    'TEST_REQUEST_DEFAULT_FORMAT': 'json',
+}
+
+
