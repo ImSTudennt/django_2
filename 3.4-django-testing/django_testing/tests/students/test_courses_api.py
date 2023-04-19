@@ -29,12 +29,13 @@ def course_factory(student_factory):
 def test_get_course(client, course_factory):
 
     course = course_factory(_quantity=1)
+    id = course[0].id
 
-    response = client.get('/api/v1/courses/')
+    response = client.get(f'/api/v1/courses/{id}/')
     
     assert response.status_code == 200
-    assert len(course) == len(response.json())
-    assert response.json()[0]['name'] == course[0].name
+    assert response.json()['id'] == course[0].id
+    assert response.json()['name'] == course[0].name
 
 @pytest.mark.django_db
 def test_list_courses(client, course_factory):
@@ -64,7 +65,7 @@ def test_filter_name(client, course_factory):
 
     for el in courses:
         name = el.name
-        response = client.get(f'/api/v1/courses/?name={name}')
+        response = client.get(f'/api/v1/courses/', {'name': {name}})
         assert el.id == response.json()[0]['id']
 
 
@@ -79,22 +80,23 @@ def test_post(client):
 
 
 @pytest.mark.django_db
-def test_patch(client):
-    
-    client.post('/api/v1/courses/', {'name': 'Pythod'})
-    assert Course.objects.filter(id=18)[0].name == 'Pythod'
-    response = client.patch('/api/v1/courses/18/', {'name': 'Java'})
-    
+def test_patch(client, course_factory):
+
+    course = course_factory(_quantity=1)
+    id = course[0].id
+    response = client.patch(f'/api/v1/courses/{id}/', {'name': 'Pythod'})
     assert response.status_code == 200
-    assert Course.objects.filter(id=18)[0].name == 'Java' 
+    assert Course.objects.filter(id=id)[0].name == 'Pythod'
+
 
 
 @pytest.mark.django_db
-def test_delete(client):
+def test_delete(client, course_factory):
     
-    client.post('/api/v1/courses/', {'name': 'Uni'})
+    course = course_factory(_quantity=1)
+    id = course[0].id
     count = Course.objects.count()
-    response = client.delete('/api/v1/courses/19/')
+    response = client.delete(f'/api/v1/courses/{id}/')
     
     assert response.status_code == 204
     assert Course.objects.count() == count - 1
