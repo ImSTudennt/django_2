@@ -1,0 +1,10 @@
+name: Django Testing and Deployment
+
+on:
+  push:
+    branches: [ci]
+
+jobs:
+  testing:
+    runs-on: ubuntu-20.04
+    env: 
