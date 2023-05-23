@@ -1,5 +1,6 @@
 # TODO: опишите необходимые обработчики, рекомендуется использовать generics APIView классы:
 # TODO: ListCreateAPIView, RetrieveUpdateAPIView, CreateAPIView
+from django.http import HttpResponse
 from rest_framework.generics import ListCreateAPIView, RetrieveUpdateAPIView, RetrieveAPIView
 from rest_framework.response import Response
 from measurement.models import Sensor, Measurement
@@ -25,6 +26,9 @@ class GetDetail_Sensor(RetrieveAPIView):
 
     queryset = Sensor.objects.all()
     serializer_class = SensorMeasurementSerializer
+
+def Check(request):
+    return HttpResponse('Я здесь')
 
 
 
