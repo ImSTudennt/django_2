@@ -60,11 +60,11 @@ jobs:
           DB_HOST: ${{env.PG_HOST}}
           DB_PORT: ${{env.PG_PORT}}
 
-    #   - name: Деплой
-    #     uses: appleboy/ssh-action@master
-    #     with:
-    #       host: ${{secrets.SSH_HOST}}
-    #       username: ${{secrets.SSH_USER}}
-    #       password: ${{secrets.SSH_PASSWORD}}
-    #       port: 5000
-    #       script: expect /home/adilet/django_cicd/pull.exp
+      - name: Деплой
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{secrets.SSH_HOST}}
+          username: ${{secrets.SSH_USER}}
+          password: ${{secrets.SSH_PASSWORD}}
+          port: 5000
+          script: expect /home/vladim/django_2/3.1-drf-intro/smart_home/pull.exp
