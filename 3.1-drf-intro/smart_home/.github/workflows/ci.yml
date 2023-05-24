@@ -7,4 +7,64 @@ on:
 jobs:
   testing:
     runs-on: ubuntu-20.04
-    env: 
+    env:
+      SECRET: ${{ secrets.SECRET_KEY }}
+      DEBUG: "0"
+      ALLOWED_HOSTS: ${{ secrets.ALLOWED_HOSTS }}
+      PG_ENGINE: ${{ secrets.ENGINE }}
+      PG_DB_NAME: ${{ secrets.DB_NAME }}
+      PG_USER: ${{ secrets.DB_USER_NAME }}
+      PG_PASSWORD: ${{ secrets.DB_USER_PASSWORD }}
+      PG_HOST: ${{ secrets.DB_HOST }}
+      PG_PORT: ${{ secrets.DB_PORT }}
+    services:
+      postgres_main:
+        image: postgres:12
+        env:
+          POSTGRES_DB: ${{ env.PG_DB_NAME }}
+          POSTGRES_USER: ${{ env.PG_USER }}
+          POSTGRES_PASSWORD: ${{ env.PG_PASSWORD }}
+        ports:
+          - 5432:5432
+        options:
+          --health-cmd pg_isready
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 5
+
+    steps:
+      - name: Проверяем репозиторий на наличие изменений
+        uses: actions/checkout@v3
+
+      - name: Установка python и окружения
+        uses: actions/setup-python@v3
+        with:
+          python-version: 3.8
+
+      - name: Установка зависимостей
+        run: pip install -r requirements.txt
+
+      - name: Линтинг
+        run: flake8 logistic/ --exclude logistic/migrations/
+
+      - name: Тестирование
+        run: python manage.py test
+        env:
+          SECRET_KEY: ${{env.SECRET}}
+          DEBUG: ${{env.DEBUG}}
+          ALLOWED_HOSTS: ${{env.ALLOWED_HOSTS}}
+          DB_ENGINE: ${{env.PG_ENGINE}}
+          DB_NAME: ${{env.PG_DB_NAME}}
+          DB_USER: ${{env.PG_USER}}
+          DB_PASSWORD: ${{env.PG_PASSWORD}}
+          DB_HOST: ${{env.PG_HOST}}
+          DB_PORT: ${{env.PG_PORT}}
+
+    #   - name: Деплой
+    #     uses: appleboy/ssh-action@master
+    #     with:
+    #       host: ${{secrets.SSH_HOST}}
+    #       username: ${{secrets.SSH_USER}}
+    #       password: ${{secrets.SSH_PASSWORD}}
+    #       port: 5000
+    #       script: expect /home/adilet/django_cicd/pull.exp
