@@ -66,5 +66,5 @@ jobs:
           host: ${{secrets.SSH_HOST}}
           username: ${{secrets.SSH_USER}}
           password: ${{secrets.SSH_PASSWORD}}
-          port: 8000
+          port: 5000
           script: expect /home/vladim/django_2/3.1-drf-intro/smart_home/pull.exp
