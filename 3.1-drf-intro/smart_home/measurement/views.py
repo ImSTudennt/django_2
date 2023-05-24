@@ -31,4 +31,4 @@ class GetDetail_Sensor(RetrieveAPIView):
 
 
 def Check(request):
-    return HttpResponse('Я здесь')
+    return HttpResponse('Я не здесь')
