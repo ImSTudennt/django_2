@@ -1,17 +1,17 @@
 FROM python:3.9
 
-COPY . /src
+WORKDIR /src
 
-RUN pip3 install --no-cache-dir --upgrade -r /src/requirements.txt
+COPY requirements.txt .
 
-COPY .nginx/nginx.conf /etc/nginx/nginx.conf
+RUN pip3 install -r requirements.txt 
 
-ENV MY_ENV=netology
+COPY . .
 
-WORKDIR src
-
-EXPOSE 6050
+COPY ./.nginx/nginx.conf /etc/nginx/nginx.conf
 
 RUN python manage.py collectstatic --noinput
+
+EXPOSE 6050
 
 CMD gunicorn stocks_products.wsgi -b 0.0.0.0:6050
