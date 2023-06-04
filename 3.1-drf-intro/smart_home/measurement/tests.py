@@ -1,3 +1,6 @@
-from django.test import TestCase
+from unittest import TestCase
 
-# Create your tests here.
+
+class TestCheck(TestCase):
+    def test_check(self):
+        self.assertEqual(1, 1)
